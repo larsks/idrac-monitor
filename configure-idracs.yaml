@@ -1,0 +1,23 @@
+- hosts: idracs
+  gather_facts: false
+  tasks:
+    - name: configure syslog port
+      raw: racadm set idrac.syslog.port 5140
+      register: result
+      failed_when: >-
+        "error" in result.stdout.lower()
+    - name: configure syslog server
+      raw: racadm set idrac.syslog.server1 10.2.0.50
+      register: result
+      failed_when: >-
+        "error" in result.stdout.lower()
+    - name: configure power log
+      raw: racadm set idrac.syslog.powerlogenable enabled
+      register: result
+      failed_when: >-
+        "error" in result.stdout.lower()
+    - name: enable syslog
+      raw: racadm set idrac.syslog.syslogenable enabled
+      register: result
+      failed_when: >-
+        "error" in result.stdout.lower()

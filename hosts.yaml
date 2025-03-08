@@ -1,0 +1,11 @@
+idracs:
+  vars:
+    ansible_user: '{{ lookup("env", "IDRAC_USERNAME") }}'
+    ansible_password: '{{ lookup("env", "IDRAC_PASSWORD") }}'
+  hosts:
+    10.2.11.132:
+    10.2.11.112:
+    10.2.12.173:
+    10.2.11.182:
+    10.2.14.164:
+    10.2.14.112:

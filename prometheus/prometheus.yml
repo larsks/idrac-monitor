@@ -1,0 +1,59 @@
+global:
+  scrape_interval: 60s
+  evaluation_interval: 60s
+
+rule_files:
+- /config/alerting/*.yml
+
+scrape_configs:
+- job_name: "idrac_ping"
+  file_sd_configs:
+  - files:
+    - /config/sd/idracs.yml
+  metrics_path: /probe
+  params:
+    module:
+    - idrac_http_302
+    - ping
+  relabel_configs:
+  - source_labels: [__address__]
+    target_label: __param_target
+  - source_labels: [__param_target]
+    target_label: instance
+  - target_label: __address__
+    replacement: blackbox-exporter:9115
+
+- job_name: "idrac_snmp"
+  file_sd_configs:
+  - files:
+    - /config/sd/idracs.yml
+  metrics_path: /snmp
+  params:
+    module:
+      - system
+      - layer2
+      - layer3
+      - idrac
+    auth: [public_v2]
+  relabel_configs:
+  - source_labels: [__address__]
+    target_label: __param_target
+  - source_labels: [__param_target]
+    target_label: instance
+  - target_label: __address__
+    replacement: snmp-exporter:9116
+# If you want to prefix all the metrics e.g. with snmp_,
+# you can do something like this:
+# metric_relabel_configs:
+# - source_labels: [__name__]
+#   target_label: __name__
+#   regex: '(.*)'
+#   action: replace
+#   replacement: 'snmp_${1}'
+
+alerting:
+  alertmanagers:
+    - scheme: http
+      static_configs:
+        - targets:
+            - "alertmanager:9093"

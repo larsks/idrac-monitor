@@ -1,0 +1,20 @@
+groups:
+- name: "system_status"
+  rules:
+  - alert: SystemUnhealthy
+    expr: count by (instance)(globalSystemStatus_info{globalSystemStatus!="ok"}) > 0
+    for: 5m
+    labels:
+      severity: warning
+    annotations:
+      summary: "System reports global status is not ok"
+      description: "Global status is {{ $labels.globalSystemStatus }} on {{ $labels.instance }}"
+  - alert: SystemCritical
+    expr: count by (instance)(globalSystemStatus_info{globalSystemStatus="critical"}) > 0
+    for: 5m
+    labels:
+      severity: critical
+    annotations:
+      summary: "System reports global status is critical"
+      description: "Global status is {{ $labels.globalSystemStatus }} on {{ $labels.instance }}"
+
