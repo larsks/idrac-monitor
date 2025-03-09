@@ -2,6 +2,8 @@ idracs:
   vars:
     ansible_user: '{{ lookup("env", "IDRAC_USERNAME") }}'
     ansible_password: '{{ lookup("env", "IDRAC_PASSWORD") }}'
+    idrac_syslog_port: "5140"
+    idrac_syslog_server: "10.2.0.50"
   hosts:
     10.2.11.132:
     10.2.11.112:

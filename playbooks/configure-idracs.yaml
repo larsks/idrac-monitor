@@ -1,0 +1,51 @@
+# Configure IDRACs to log via syslog
+
+- hosts: idracs
+  gather_facts: false
+  tasks:
+    - name: get syslog configuration
+      raw: racadm get idrac.syslog
+      register: rawconf
+      failed_when: >-
+        "error" in rawconf.stdout.lower()
+
+    - set_fact:
+        syslog: |
+          {% filter from_yaml %}
+          {% for line in rawconf.stdout_lines if not line.startswith('[') %}
+          {% set kv = line.split('=', 1) %}
+          {{ kv[0] }}: "{{ kv[1]}}"
+          {% endfor %}
+          {% endfilter %}
+
+    - name: configure syslog port
+      when: >-
+        syslog.Port != idrac_syslog_port
+      raw: racadm set idrac.syslog.port {{ idrac_syslog_port }}
+      register: result
+      failed_when: >-
+        "error" in result.stdout.lower()
+ 
+    - name: configure syslog server
+      when: >-
+        syslog.Server1 != idrac_syslog_server
+      raw: racadm set idrac.syslog.server1 {{ idrac_syslog_server }}
+      register: result
+      failed_when: >-
+        "error" in result.stdout.lower()
+ 
+    - name: configure power log
+      when: >-
+        syslog.PowerLogEnable != "Enabled"
+      raw: racadm set idrac.syslog.powerlogenable enabled
+      register: result
+      failed_when: >-
+        "error" in result.stdout.lower()
+ 
+    - name: enable syslog
+      when: >-
+        syslog.SysLogEnable != "Enabled"
+      raw: racadm set idrac.syslog.syslogenable enabled
+      register: result
+      failed_when: >-
+        "error" in result.stdout.lower()
