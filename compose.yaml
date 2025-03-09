@@ -5,6 +5,11 @@ volumes:
   grafana_data:
 
 services:
+
+  # This is effectively an "initContainer": it reads the snmp-generator
+  # configuration and produces an snmp-exporter configuration. The
+  # snmp-exporter container has a dependency that causes it to wait for
+  # this container to exit successfully before starting the exporter.
   snmp-config-generator:
     image: ghcr.io/ocp-on-nerc/snmp-config-generator:latest
     volumes:
