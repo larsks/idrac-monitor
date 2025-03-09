@@ -12,3 +12,7 @@ datasources:
       httpMethod: POST
       manageAlerts: true
       prometheusType: Prometheus
+
+      # This should be >= the scrape interval set in prometheus (otherwise
+      # things like $__rate_interval won't work correctly).
+      timeInterval: 60s
