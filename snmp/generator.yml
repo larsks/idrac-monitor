@@ -121,3 +121,15 @@ modules:
         type: EnumAsInfo
       IDRAC-MIB-SMIv2::globalStorageStatus:
         type: EnumAsInfo
+      IDRAC-MIB-SMIv2::chassisStatus:
+        type: EnumAsInfo
+      IDRAC-MIB-SMIv2::powerSupplyStatus:
+        type: EnumAsInfo
+      IDRAC-MIB-SMIv2::temperatureProbeStatus:
+        type: EnumAsInfo
+      IDRAC-MIB-SMIv2::powerUnitStatus:
+        type: EnumAsInfo
+      IDRAC-MIB-SMIv2::powerUsageStatus:
+        type: EnumAsInfo
+      IDRAC-MIB-SMIv2::firmwareStatus:
+        type: EnumAsInfo
