@@ -1,6 +1,7 @@
 global:
   scrape_interval: 60s
   evaluation_interval: 60s
+  scrape_timeout: 60s
 
 rule_files:
 - /config/alerting/*.yml
