@@ -2,7 +2,7 @@ groups:
 - name: "cpu_temp"
   rules:
   - alert: HighCPUTemperature
-    expr: max by (instance)(temperatureProbeReading{temperatureProbeLocationName=~"CPU.*"})/10 > 40
+    expr: max by (instance)(temperatureProbeReading{temperatureProbeLocationName=~"CPU.*"})/10 > 50
     for: 5m
     labels:
       severity: warning

@@ -1,0 +1,19 @@
+groups:
+- name: "noping"
+  rules:
+  - alert: SystemNotPingable
+    expr: probe_success{job="idrac_ping"} == 0
+    for: 5m
+    labels:
+      severity: warning
+    annotations:
+      summary: "System is not responding to ICMP echo requests for 5 minutes"
+      description: "{{ $labels.instance }} is not responding to ICMP echo requests for 5 minutes"
+  - alert: SystemNotPingableExtended
+    expr: probe_success{job="idrac_ping"} == 0
+    for: 15m
+    labels:
+      severity: critical
+    annotations:
+      summary: "System is not responding to ICMP echo requests for 15 minutes"
+      description: "{{ $labels.instance }} is not responding to ICMP echo requests 15 minutes"
