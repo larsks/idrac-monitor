@@ -7,7 +7,7 @@ route:
 receivers:
   - name: 'postbin'
     webhook_configs:
-      - url: 'https://www.postb.in/b/1741453857996-5340727781876'
+      - url: '{{ .Env.ALERTMANAGER_POST_URL }}'
 inhibit_rules:
   - source_match:
       severity: 'critical'

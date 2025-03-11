@@ -25,10 +25,20 @@ This compose stack opens the following ports on your host:
 
 ## Getting started
 
-To bring up the stack, run:
+To bring up the stack:
 
-```
-docker compose up -d
-```
+1. Set the value of `ALERTMANAGER_POST_URL` in your `.env` file. For example, if you want to post alerts to a [pipedream] bin:
 
-You can connect to grafana at <http://localhost:3000>.
+    ```
+    echo "ALERTMANAGER_POST_URL=https://your-unique-code.m.pipedream.net" > .env
+    ```
+
+2. Run:
+
+    ```
+    docker compose up -d
+    ```
+
+You can connect to Grafana at <http://localhost:3000>.
+
+[pipedream]: https://pipedream.com/requestbin

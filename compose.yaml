@@ -3,6 +3,7 @@ volumes:
   prom_data:
   loki_data:
   grafana_data:
+  alertmanager_config:
 
 services:
 
@@ -78,9 +79,25 @@ services:
     - ./grafana/provisioning:/etc/grafana/provisioning
     - ./grafana/dashboards:/etc/grafana/dashboards
 
+  alertmanager-config-generator:
+    image: docker.io/gomplate/gomplate:v4.3.0-alpine
+    environment:
+      ALERTMANAGER_POST_URL: "${ALERTMANAGER_POST_URL}"
+    volumes:
+    - ./alertmanager:/src
+    - alertmanager_config:/config
+    command:
+    - -f
+    - /src/alertmanager.yml
+    - -o
+    - /config/alertmanager.yml
+
   alertmanager:
     image: quay.io/prometheus/alertmanager:latest
+    depends_on:
+      alertmanager-config-generator:
+        condition: service_completed_successfully
     volumes:
-    - ./alertmanager:/config
+    - alertmanager_config:/config
     command:
     - --config.file=/config/alertmanager.yml
