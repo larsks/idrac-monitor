@@ -33,6 +33,13 @@ To bring up the stack:
     echo "ALERTMANAGER_POST_URL=https://your-unique-code.m.pipedream.net" > .env
     ```
 
+2. Set the value of `SYSLOG_HOST` and `SYSLOG_PORT` to point to the hostname (or address) and port of a syslog server.
+
+    ```
+    echo "SYSLOG_HOST=192.168.1.1" >> .env
+    echo "SYSLOG_PORT=5140" >> .env
+    ```
+
 2. Run:
 
     ```

@@ -28,8 +28,8 @@
  
     - name: configure syslog server
       when: >-
-        syslog.Server1 != idrac_syslog_server
-      raw: racadm set idrac.syslog.server1 {{ idrac_syslog_server }}
+        syslog.Server1 != idrac_syslog_host
+      raw: racadm set idrac.syslog.server1 {{ idrac_syslog_host }}
       register: result
       failed_when: >-
         "error" in result.stdout.lower()
