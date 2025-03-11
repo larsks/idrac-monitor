@@ -7,6 +7,22 @@ rule_files:
 - /config/alerting/*.yml
 
 scrape_configs:
+- job_name: "idrac_web"
+  file_sd_configs:
+  - files:
+    - /config/sd/idracs.yml
+  metrics_path: /probe
+  params:
+    module:
+    - http_302
+  relabel_configs:
+  - source_labels: [__address__]
+    target_label: __param_target
+  - source_labels: [__param_target]
+    target_label: instance
+  - target_label: __address__
+    replacement: blackbox-exporter:9115
+
 - job_name: "idrac_ping"
   file_sd_configs:
   - files:
@@ -14,7 +30,6 @@ scrape_configs:
   metrics_path: /probe
   params:
     module:
-    - idrac_http_302
     - ping
   relabel_configs:
   - source_labels: [__address__]

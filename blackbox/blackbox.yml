@@ -1,5 +1,7 @@
+# See https://github.com/prometheus/blackbox_exporter/blob/master/example.yml
+# for an extended example.
 modules:
-  idrac_http_302:
+  http_302:
     prober: http
     timeout: 5s
     http:
